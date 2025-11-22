@@ -1,6 +1,4 @@
 'use client';
-
-import test from "node:test";
 import { useEffect, useState, useRef } from "react";
 
 export default function FullscreenSlideshow({ items }: { items: string[] }) {
@@ -10,14 +8,7 @@ export default function FullscreenSlideshow({ items }: { items: string[] }) {
 
   const current = items[index];
 
-  // Detect by attempting to load as a video
-  const isVideo = (url) => {
-    // We will optimistically assume unknown types are video-capable
-    // and rely on the video element failing
-    const video = document.createElement("video");
-    return video.canPlayType ? true : false;
-  };
-  const testIfImage = (url) => {
+  const testIfImage = (url: string) => {
   return new Promise((resolve) => {
     const img = new Image();
     img.src = url;
@@ -30,7 +21,7 @@ export default function FullscreenSlideshow({ items }: { items: string[] }) {
     testIfImage(current).then((isImage) => {
       setCurrentIsVideo(!isImage);
       if(isImage){
-        const timer = setTimeout(() => {
+        setTimeout(() => {
         setIndex((i) => (i + 1) % items.length);
       }, 5000);
     

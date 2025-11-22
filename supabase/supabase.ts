@@ -43,17 +43,17 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          "image_uuid": string
+          image_uuid: string
         }
         Insert: {
           created_at?: string
           id?: number
-          "image_uuid": string
+          image_uuid: string
         }
         Update: {
           created_at?: string
           id?: number
-          "image_uuid"?: string
+          image_uuid?: string
         }
         Relationships: []
       }

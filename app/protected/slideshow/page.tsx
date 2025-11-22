@@ -20,8 +20,10 @@ async function Slideshow() {
         const src = result.data?.signedUrl || null
         return src
     }) || [])
+    // Filter out nulls
+    const filteredImages = images.filter((img): img is string => img !== null);
 
     return <div>
-        <SlideshowImage items={images} />
+        <SlideshowImage items={filteredImages} />
     </div>
 }
