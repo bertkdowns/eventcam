@@ -1,17 +1,21 @@
 "use client";
 
 import { createClient } from '@/lib/supabase/client';
-import { useRef, useState } from 'react';
+import { ChangeEventHandler, useRef, useState } from 'react';
 import { Button } from '../../components/ui/button';
 
 export default function ImageUploader() {
     const supabase = createClient();
     const [submitting, setSubmitting] = useState(false);
-    const [fileNames, setFileNames] = useState([]);
+    const [fileNames, setFileNames] = useState<string[]>([]);
 
 
-    const handleFileChange = (event) => {
+    const handleFileChange : ChangeEventHandler<HTMLInputElement> = (event) => {
         const files = event.target.files;
+        if (!files) {
+            setFileNames([]);
+            return;
+        }
         const names = Array.from(files).map((file) => file.name);
         setFileNames(names);
     };
@@ -20,7 +24,7 @@ export default function ImageUploader() {
     async function uploadFile(file: File) {
         // generate random image path
         const filename = crypto.randomUUID();
-        const { data, error } = await supabase.storage.from('images').upload(filename, file)
+        const { error } = await supabase.storage.from('images').upload(filename, file)
         if (error) {
             // Handle error
         } else {
