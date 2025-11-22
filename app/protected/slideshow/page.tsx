@@ -1,31 +1,28 @@
 import { createClient } from '@/lib/supabase/server';
 import { Suspense } from 'react';
-import MyImage from './image';
-import ApprovalButtons from './approval-buttons';
+import SlideshowImage from './slideshow-image';
 
-export default function Instruments() {
+export default function SlideshowPage() {
     return <Suspense fallback={<div>Loading...</div>}>
-        <InstrumentsList />
+        <Slideshow />
     </Suspense>;
 }
 
-async function InstrumentsList() {
+async function Slideshow() {
     const supabase = await createClient(); // you have to use the server client to get the cookies!
-    const { data: imagesToApprove } = await supabase.from("approvals").select();
+    const { data: imagesToApprove } = await supabase.from("approved").select();
     const bucket = await supabase.storage.from('images');
 
 
     const images = await Promise.all(imagesToApprove?.map(async (img) => {
-        const result = await bucket.createSignedUrl(img.image_uuid, 60 * 60 * 24)
+        const result = await bucket.createSignedUrl(img.image_name!, 60 * 60 * 24)
         const src = result.data?.signedUrl || null
         return (
             <div key={img.id} style={{ marginBottom: "20px" }}>
-                <h3>Image ID: {img.id}</h3>
-                {src && <MyImage
+                <p>{img.id}</p>
+                {src && <SlideshowImage
                     src={src}
                 />}
-                <p>{img.created_at}</p>
-                <ApprovalButtons image_uuid={img.image_uuid} />
             </div>
         )
     }) || [])
