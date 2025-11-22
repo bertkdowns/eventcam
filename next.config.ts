@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   images: {
     remotePatterns:[
-      new URL("https://evxcnutndqpgogsojtoq.supabase.co/**")
+      new URL("https://evxcnutndqpgogsojtoq.supabase.co/**/*")
     ]
   }
 };
