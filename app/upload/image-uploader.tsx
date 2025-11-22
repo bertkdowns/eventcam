@@ -1,10 +1,20 @@
 "use client";
 
 import { createClient } from '@/lib/supabase/client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { Button } from '../../components/ui/button';
 
-export default function ImageUploader(){
+export default function ImageUploader() {
     const supabase = createClient();
+    const [submitting, setSubmitting] = useState(false);
+    const [fileNames, setFileNames] = useState([]);
+
+
+    const handleFileChange = (event) => {
+        const files = event.target.files;
+        const names = Array.from(files).map((file) => file.name);
+        setFileNames(names);
+    };
 
     // Upload file using standard upload
     async function uploadFile(file: File) {
@@ -19,8 +29,9 @@ export default function ImageUploader(){
         }
     }
 
-    async function uploadFiles(){
-        if(!fileUploadRef.current) return;
+    async function uploadFiles() {
+        setSubmitting(true);
+        if (!fileUploadRef.current) return;
         const e = fileUploadRef.current;
         const files = Array.from(e.files || []);
         for (const file of files) {
@@ -35,15 +46,38 @@ export default function ImageUploader(){
     return <div>
 
         <input
-    type="file"
-    ref={fileUploadRef}
-    multiple
-    accept="image/*"
-    />
+            className='hidden'
+            type="file"
+            ref={fileUploadRef}
+            multiple
+            accept="image/*"
+            id='file-upload'
+            onChange={handleFileChange}
 
-    <button onClick={uploadFiles}>
-        Submit files
-    </button>
-        
+        />
+        <label htmlFor='file-upload' className='cursor-pointer underline'>
+            <div className="w-full h-[50vh] p-10 items-center">
+                <div className=' border boerdr-3 w-full h-full border-gray-400 border-dashed p-10 pt-40 text-center'>
+
+                    {fileNames.length == 0 && <div>
+                        <p>Choose files from your device</p>
+                    </div>
+                    }
+                    <ul>
+
+                        {fileNames.map((name, index) => (
+                            <li key={index}>{name}</li>
+                        ))}
+                    </ul></div>
+
+
+            </div>
+        </label>
+
+        <div className='text-center'>
+            <Button onClick={uploadFiles} disabled={submitting}>
+                {submitting ? "Submitting.." : "Add to the event!"}
+            </Button>
+        </div>
     </div>
 }
