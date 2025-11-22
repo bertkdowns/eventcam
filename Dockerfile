@@ -30,7 +30,7 @@ ENV NODE_ENV=production
 # Don’t run Next.js as root
 USER node
 
-COPY --from=builder /app/public ./public
+#COPY --from=builder /app/public ./public # no public folder
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package.json ./package.json
 COPY --from=deps /app/node_modules ./node_modules
