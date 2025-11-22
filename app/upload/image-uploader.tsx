@@ -15,6 +15,7 @@ export default function ImageUploader(){
             // Handle error
         } else {
             // Handle success
+            await supabase.from('approvals').insert({ image_uuid: filename });
         }
     }
 
