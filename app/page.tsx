@@ -1,5 +1,6 @@
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import Link from "next/link";
+import ImageUploader from "./upload/image-uploader";
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
         
         <p>Get your photo on the big screen!</p>
 
-        <Link href="/upload" className="underline text-xl"> Upload Event Photo</Link>
+        <ImageUploader />
         <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
           <Link href="/protected/image-review">Image Review</Link>
           <Link href="/protected/slideshow">Slideshow</Link>
