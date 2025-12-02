@@ -9,22 +9,22 @@ export default function FullscreenSlideshow({ items }: { items: string[] }) {
   const current = items[index];
 
   const testIfImage = (url: string) => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.src = url;
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-  });
-};
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+    });
+  };
 
   useEffect(() => {
     testIfImage(current).then((isImage) => {
       setCurrentIsVideo(!isImage);
-      if(isImage){
+      if (isImage) {
         setTimeout(() => {
-        setIndex((i) => (i + 1) % items.length);
-      }, 5000);
-    
+          setIndex((i) => (i + 1) % items.length);
+        }, 5000);
+
       } else {
 
       }
@@ -43,7 +43,7 @@ export default function FullscreenSlideshow({ items }: { items: string[] }) {
   return (
     <div className="fixed inset-0 bg-black flex items-center justify-center overflow-hidden">
       {!currentIsVideo ? (
-    // eslint-disable-next-line @next/next/no-img-element
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={current}
           className="w-full h-full object-contain"
@@ -59,7 +59,7 @@ export default function FullscreenSlideshow({ items }: { items: string[] }) {
           onEnded={onVideoEnded}
         />
       )}
-      
+
     </div>
   );
 }

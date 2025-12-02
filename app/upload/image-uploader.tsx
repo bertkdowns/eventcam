@@ -54,7 +54,7 @@ export default function ImageUploader() {
             type="file"
             ref={fileUploadRef}
             multiple
-            accept="image/*"
+            accept="image/*,video/*"
             id='file-upload'
             onChange={handleFileChange}
 

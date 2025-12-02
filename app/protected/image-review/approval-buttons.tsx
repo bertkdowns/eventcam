@@ -18,6 +18,7 @@ export default function ApprovalButtons({ image_uuid }: { image_uuid: string }) 
     }
     const onReject = async () => {
         await supabase.from('approvals').delete().eq('image_uuid', image_uuid);
+        await supabase.storage.from('images').remove([image_uuid]);
         setRejected(true);
     }
     return <div>
